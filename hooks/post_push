@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+__repo_name="${IMAGE_NAME%:*}"
+__repo_version="${SOURCE_BRANCH:1}"
+
+for __tag in "${__repo_version%.*}" "${__repo_version%%.*}" "latest"; do
+    docker tag "${IMAGE_NAME}" "${__repo_name}:${__tag}"
+    docker push "${__repo_name}:${__tag}"
+done
