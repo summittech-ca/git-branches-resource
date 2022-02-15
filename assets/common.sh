@@ -23,6 +23,7 @@ EOF
       cat >> ~/.ssh/config <<EOF
 User $private_key_user
 EOF
+    fi
 
     chmod 0600 ~/.ssh/config
   fi
