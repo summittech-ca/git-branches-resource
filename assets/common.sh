@@ -2,6 +2,7 @@ export TMPDIR=${TMPDIR:-/tmp}
 
 load_pubkey() {
   local private_key_path=$TMPDIR/git-resource-private-key
+  local private_key_user=$(jq -r '.source.private_key_user // empty' <<< "$1")
 
   (jq -r '.source.private_key // empty' < $1) > $private_key_path
 
@@ -18,6 +19,11 @@ load_pubkey() {
 StrictHostKeyChecking no
 LogLevel quiet
 EOF
+    if [ ! -z "$private_key_user" ]; then
+      cat >> ~/.ssh/config <<EOF
+User $private_key_user
+EOF
+
     chmod 0600 ~/.ssh/config
   fi
 }
